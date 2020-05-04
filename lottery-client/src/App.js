@@ -5,20 +5,16 @@ import lottery from "./lottery";
 
 const App = () => {
   const [manager, setManager] = useState("");
-
-  // let account0;
-
-  // const seder = () => {
-  //   web3.eth.getAccounts().then((result) => {
-  //     account0 = result[0];
-  //     console.log(account0);
-  //     return account0;
-  //   });
-  // };
+  const [players, setPlayers] = useState([]);
+  const [balance, setBalance] = useState("");
 
   const getManager = async () => {
     const manager = await lottery.methods.manager().call();
     setManager(manager);
+    const players = await lottery.methods.getPlayers().call();
+    setPlayers(players);
+    const balance = await web3.eth.getBalance(lottery.options.address);
+    setBalance(balance);
   };
 
   useEffect(() => {
@@ -26,11 +22,15 @@ const App = () => {
   }, []);
 
   console.log(manager);
-  // console.log(web3.eth.accounts[0]);
+
   return (
     <div className="App">
       <h1>Bet Ur Luck</h1>
       <p>This contract is managed by {manager} </p>
+      <p>
+        There are curently {players.length} people entered, trying their luck
+        for {web3.utils.fromWei(balance, "ether")} ether to win!
+      </p>
     </div>
   );
 };
