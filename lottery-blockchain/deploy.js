@@ -4,7 +4,7 @@ const { interface, bytecode } = require("./compile");
 
 const provider = new HDWalletProvider(
   "virtual identify peasant boss dress toss mix buzz panic private scrub south",
-  ""
+  "https://rinkeby.infura.io/v3/53187f1aefc74058b52ecd2ccba8f20b"
 );
 
 const web3 = new Web3(provider);
@@ -18,6 +18,7 @@ const deploy = async () => {
     .deploy({ data: bytecode })
     .send({ gas: "1000000", from: accounts[0] });
 
+  console.log(interface);
   console.log("Contract deployed to", result.options.address);
 };
 
